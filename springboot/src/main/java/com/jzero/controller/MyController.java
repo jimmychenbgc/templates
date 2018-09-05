@@ -36,7 +36,7 @@ public class MyController {
 
     @PostMapping("/mapper/generateFile")
     public String generateFile()  {
-    	myProcessor.generateFile();
+    	myProcessor.startProcess();
         return "File generated!!";
     }
 

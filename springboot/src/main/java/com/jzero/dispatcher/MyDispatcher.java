@@ -1,5 +1,6 @@
-package com.jzero.processor;
+package com.jzero.dispatcher;
 
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,27 +10,26 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MyProcessor {
-
+public class MyDispatcher {
 	private final Environment environment;
-	private final BlockingQueue<String> messageQueue;
-	
+	private @Qualifier("MMQ") BlockingQueue<String> messageQueue;	
+
 	@Autowired
-	public MyProcessor(Environment environment, @Qualifier("MMQ") BlockingQueue<String> messageQueue) {
+	public MyDispatcher (Environment environment, @Qualifier("MMQ") BlockingQueue<String> messageQueue) {
 		this.environment = environment;
 		this.messageQueue = messageQueue;
 	}
 	
 	@Async
-	public void startProcess() {
-		while (true) {
+	public void startDispatcher() {
+		while(true) {
 			try {
-				System.out.println(messageQueue.take());
+				messageQueue.put("message: " + new Date().getTime());
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}			
 		}
-	}
+	}	
 }
