@@ -13,8 +13,14 @@ import org.springframework.integration.config.EnableIntegrationManagement;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
 @EnableAsync
+@EnableSwagger2
 @EnableIntegration
 @EnableIntegrationManagement
 @EnableCaching
@@ -33,4 +39,11 @@ public class SpringbootApplication {
 		return messageQueue;
 	}
 	
+	@Bean
+	public Docket api()  {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.any())
+				.build();
+	}
 }
