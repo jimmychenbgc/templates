@@ -11,14 +11,12 @@ import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.config.EnableIntegrationManagement;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableAsync
 @EnableIntegration
 @EnableIntegrationManagement
 @EnableCaching
-@EnableScheduling
 @IntegrationComponentScan
 public class SpringbootApplication {
 

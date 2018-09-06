@@ -2,6 +2,8 @@ package com.jzero.processor;
 
 import java.util.concurrent.BlockingQueue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
@@ -10,7 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MyProcessor {
-
+	private final Logger logger = LoggerFactory.getLogger(MyProcessor.class);
+	
 	private final Environment environment;
 	private final BlockingQueue<String> messageQueue;
 	
@@ -18,16 +21,18 @@ public class MyProcessor {
 	public MyProcessor(Environment environment, @Qualifier("MMQ") BlockingQueue<String> messageQueue) {
 		this.environment = environment;
 		this.messageQueue = messageQueue;
+		for (String activeProfile : environment.getActiveProfiles()) {
+			logger.info(activeProfile);
+		}
 	}
 	
 	@Async
 	public void startProcess() {
 		while (true) {
 			try {
-				System.out.println(messageQueue.take());
+				logger.info(messageQueue.take());				
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
