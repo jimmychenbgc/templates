@@ -10,19 +10,21 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class MyProcessor {
-	private final Logger logger = LoggerFactory.getLogger(MyProcessor.class);
+	private final Logger logger = LoggerFactory.getLogger(MyProcessor.class);	
 	
-	private final Environment environment;
+	private final Environment env;
 	private final BlockingQueue<String> messageQueue;
 	
 	@Autowired
 	public MyProcessor(Environment environment, @Qualifier("MMQ") BlockingQueue<String> messageQueue) {
-		this.environment = environment;
+		this.env = environment;
 		this.messageQueue = messageQueue;
 		for (String activeProfile : environment.getActiveProfiles()) {
-			logger.info(activeProfile);
+			logger.info(activeProfile);			
+			logger.info("my.property2" + env.getProperty("my.property"));
 		}
 	}
 	
